@@ -1,0 +1,99 @@
+CREATE DATABASE online_food_delivery;
+USE online_food_delivery;
+
+CREATE TABLE customer 
+(cid INT(20) NOT NULL AUTO_INCREMENT, 
+customer_name VARCHAR(50) NOT NULL,
+password VARCHAR(20) NOT NULL,
+contact_no INT(11) NOT NULL , 
+location VARCHAR(80) NOT NULL , 
+type VARCHAR(50), 
+max_discount INT(20), 
+PRIMARY KEY (cid, password));
+
+INSERT INTO customer (contact_no, location, type, max_discount, password) values (011111111111, 'gulshan2, road 8, house# 122', 'regular', 15, 12345);
+
+
+CREATE TABLE category
+(category_id INT(20) NOT NULL AUTO_INCREMENT,
+category_name VARCHAR(50),
+PRIMARY KEY (category_id));
+
+INSERT INTO category (category_name) VALUES
+('beverage'),
+('desserts'),
+('chinese'),
+('bangla'),
+('fastfood');
+
+
+
+
+
+
+
+
+CREATE TABLE item 
+(item_id INT(20) NOT NULL AUTO_INCREMENT,
+category_id INT(20) NOT NULL,
+item_name VARCHAR(50) NOT NULL,
+price DECIMAL(5,2) NOT NULL,
+details VARCHAR(200) NOT NULL,
+image VARCHAR(80),
+PRIMARY KEY (item_id),
+FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE ON UPDATE CASCADE)
+;
+
+INSERT INTO item
+(category_id, item_name, price, details, image) VALUES
+(1, 'blueberry Juice', 200, 'Chilled refreshner with sourness of lemmon and sweetness of berry', 'assets/img/product/product-1.jpg'),
+(1, 'Ice Tea', 150, 'Refreshing tea with lemonade', 'assets/img/product/product-4.jpg'),
+(1, 'Strawberry shake', 250, 'Brain Freezing thik smoothy with Ice cube', 'assets/img/product/product-2.jpg'),
+(2, 'Cookies', 120, 'Chocolate cookies with oreo crunches', 'assets/img/product/product-8.jpg'),
+(5, 'French Fries', 150, 'Salted and chrispy potato fries', 'assets/img/product/product-5.jpg'),
+(5, 'Spanish Fries', 150, 'Very hot spicy potato fries', 'assets/img/product/product-7.jpg'),
+(5, 'Burger', 350, 'Double Chicken and Beef Pattied Cheese Burger', 'assets/img/product/product-3.jpg'),
+(5, 'Pocket Fries', 200, 'Pocket sized Nuggets', 'assets/img/product/product-10.jpg'),
+(5, 'Bag Fries', 120, 'Large sized Nuggets', 'assets/img/product/product-6.jpg'),
+(3, 'Fried Rice', 120, "Fried Rice with Mixed Vegetables, Salad and Chicken curry", 'assets/img/product/product-9.jpg')
+;
+
+CREATE TABLE orders
+(id INT(20) NOT NULL AUTO_INCREMENT,
+cid INT(20) NOT NULL ,
+item_ids VARCHAR(20),
+total_price DECIMAL(5, 2),
+added_on DATETIME,
+delivery_man VARCHAR(50),
+PRIMARY KEY (id),
+FOREIGN KEY (cid) REFERENCES customer(cid));
+
+
+CREATE TABLE cart
+(id INT(20) NOT NULL,
+cid INT(20) NOT NULL ,
+item_id INT(20) NOT NULL ,
+quantity INT(10),
+total_price DECIMAL(5, 2),
+added_on DATETIME,
+PRIMARY KEY (id),
+FOREIGN KEY (cid) REFERENCES customer(cid) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (item_id) REFERENCES item(item_id) ON DELETE CASCADE ON UPDATE CASCADE);
+
+
+CREATE TABLE cart
+(id INT(20) NOT NULL,
+cid INT(20) NOT NULL ,
+item_id INT(20) NOT NULL ,
+total_price DECIMAL(5, 2),
+added_on DATETIME,
+PRIMARY KEY (id),
+FOREIGN KEY (cid) REFERENCES customer(cid) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (item_id) REFERENCES item(item_id) ON DELETE CASCADE ON UPDATE CASCADE);
+
+
+CREATE TABLE message
+(email VARCHAR(50) NOT NULL,
+name VARCHAR(50) NOT NULL,
+message VARCHAR(200) NOT NULL)
+;
